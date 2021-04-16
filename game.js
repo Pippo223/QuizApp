@@ -44,7 +44,7 @@ startGame = () => {
     questionCounter = 0;
     score = 0;
     availableQuestions = [...questions];
-    console.log(availableQuestions);
+    // console.log(availableQuestions);
     getNewQuestion();
 };
 
@@ -74,7 +74,21 @@ choices.forEach((choice) => {
         acceptingAnswers = false;
         const selectedChoice = e.target;
         const selectedAnswer = selectedChoice.dataset['number'];
+
+        /* const classToApply = 'incorrect';
+        if(selectedAnswer == currentQuestion.answer) {
+            classToApply = 'correct';
+        }
+ */
+        const classToApply =
+        selectedAnswer == currentQuestion.answer ? "correct" : "incorrect";
+  
+      selectedChoice.parentElement.classList.add(classToApply);
+
+      setTimeout(() => {
+        selectedChoice.parentElement.classList.remove(classToApply);
         getNewQuestion();
+      }, 1000);
     });
 });
 
