@@ -1,7 +1,8 @@
 const question = document.getElementById("question");
 const choices = Array.from(document.getElementsByClassName("choice-text"));
-console.log(choices);
-
+const progressText = document.getElementById("progressText");
+const scoreText = document.getElementById("score");
+const progressBarFull = document.getElementById("progressBarFull");
 let currentQuestion = {};
 let acceptingAnswers = false;
 let score = 0;
@@ -44,16 +45,19 @@ startGame = () => {
     questionCounter = 0;
     score = 0;
     availableQuestions = [...questions];
-    // console.log(availableQuestions);
     getNewQuestion();
 };
 
 getNewQuestion = () => {
     if (availableQuestions.length === 0 || questionCounter >= MAX_QUESTIONS) {
         //go to the end page
-        return window.location.assign('/end.html');
+        return window.location.assign("/end.html");
     }
     questionCounter++;
+    progressText.innerText = `Question ${questionCounter}/${MAX_QUESTIONS}`;
+    //Update Progress Bar
+    progressBarFull.style.width = `${(questionCounter / MAX_QUESTIONS) * 100}%`;
+
     const questionIndex = Math.floor(Math.random() * availableQuestions.length);
     currentQuestion = availableQuestions[questionIndex];
     question.innerText = currentQuestion.question;
@@ -74,14 +78,13 @@ choices.forEach((choice) => {
         acceptingAnswers = false;
         const selectedChoice = e.target;
         const selectedAnswer = selectedChoice.dataset['number'];
-
-        /* const classToApply = 'incorrect';
-        if(selectedAnswer == currentQuestion.answer) {
-            classToApply = 'correct';
-        }
- */
+        
         const classToApply =
         selectedAnswer == currentQuestion.answer ? "correct" : "incorrect";
+
+        if (classToApply === 'correct') {
+            incrementScore(CORRECT_BONUS);
+        }
   
       selectedChoice.parentElement.classList.add(classToApply);
 
@@ -91,6 +94,11 @@ choices.forEach((choice) => {
       }, 1000);
     });
 });
+
+incrementScore = num => {
+    score+=num;
+    scoreText.innerText = score;
+}
 
 startGame();
 
