@@ -847,7 +847,7 @@ input {
     transform: translateY(-0.1rem);
     transition: transform 150ms;
   }
-  
+ 
   .btn[disabled]:hover {
     cursor: not-allowed;
     box-shadow: none;
@@ -874,3 +874,8 @@ input {
   input::placeholder {
     color: #aaa;
   }            
+
+  .straight {
+    display: flex;
+
+  }
